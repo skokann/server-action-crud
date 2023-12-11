@@ -1,4 +1,4 @@
-import createNote from "@/lib/actions";
+import { createNote, deleteNote } from "@/lib/actions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
@@ -29,15 +29,24 @@ export default async function Home() {
         {/*map the notes*/}
         <div className="mt-6 space-y-4">
           <h1 className="border-b">Notes.....</h1>
-          {data.map((item) => (
-            <Link
-              key={item?.id}
-              href={`/notes/${item?.id}`}
-              className="underline"
-            >
-              <p>{item?.text}</p>
-            </Link>
-          ))}
+          {data.map((item) => {
+            const deleteNoteWithId = deleteNote.bind(null, item?.id);
+            console.log(item);
+            return (
+              <div key={item?.id} className="underline block">
+                <div className="inline-flex justify-center items-center gap-2">
+                  <Link href={`/notes/${item?.id}`}>
+                    <p>{item?.text}</p>
+                  </Link>
+                  <form action={deleteNoteWithId}>
+                    <button type="submit" className="bg-red-400 p-2 rounded-md">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </main>
