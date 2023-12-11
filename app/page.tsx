@@ -3,7 +3,9 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
 export default async function Home() {
-  const data = await prisma.note.findMany();
+  const data = await prisma.note.findMany({
+    take: 20, // Limit the results to 20
+  });
 
   return (
     <main className="p-10">
