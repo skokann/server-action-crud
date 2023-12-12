@@ -1,6 +1,8 @@
-import { createNote, deleteNote } from "@/lib/actions";
+import { createNote, deleteNote, verifyCaptcha } from "@/lib/actions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import SubmitButton from "./SubmitButton";
 
 export default async function Home() {
   const data = await prisma.note.findMany({
@@ -23,9 +25,7 @@ export default async function Home() {
             rows={10}
             className="border border-black p-2"
           />
-          <button type="submit" className="p-2 bg-blue-400 block">
-            Submit
-          </button>
+          <SubmitButton />
         </form>
 
         {/*map the notes*/}
